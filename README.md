@@ -33,7 +33,7 @@
 
 ## 下载文件
 使用linux的大佬不需要说啥了。  
-使用windows的同学可以在[release页面](https://github.com/chuanzz/media_transcoder/releases"%3Ehttps://github.com/chuanzz/media_transcoder/releases)下载已经使用pyinstaller生成的exe文件。  
+使用windows的同学可以在[release页面](https://github.com/chuanzz/media_transcoder/releases)下载已经使用pyinstaller生成的exe文件。  
 android的话安装python3的ide应该也能用，但不建议。。  
 
 ## 修改配置
