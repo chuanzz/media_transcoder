@@ -86,7 +86,7 @@ def transcoded_path(path,suffix):
 # In[5]:
 
 
-def get_video_info(trans_path):
+def get_video_info(trans_path, s=0):
     #获取视频fps和宽度
     para = [
         '-v', 'quiet',
@@ -95,12 +95,13 @@ def get_video_info(trans_path):
         '-show_streams',
     ]
     trans_streams = popen_exec([ffmpeg_dir+"ffprobe", "-i", trans_path] + para)
-    trans_streams = json.loads(trans_streams)['streams'][0]
-    
-    fps = trans_streams['r_frame_rate']
-    fps = eval(fps)
-    width = trans_streams['width']
-    
+    trans_streams = json.loads(trans_streams)['streams'][s]
+    try:
+        fps = trans_streams['r_frame_rate']
+        fps = eval(fps)
+        width = trans_streams['width']
+    except: 
+        return get_video_info(trans_path,1)
     return (fps,width)
 
 def handle_video(trans_path,out_trans_path):
@@ -128,7 +129,7 @@ def handle_img(trans_path,out_trans_path):
     
 def handle(trans_paths, trans_type):
     for trans_path in tqdm(trans_paths,desc=trans_type):
-        
+        #tqdm.write(trans_path)
         if trans_type == "img":
             out_trans_path, out_info_path = transcoded_path(trans_path, img_format[1])
             out = handle_img(trans_path,out_trans_path)
@@ -147,11 +148,13 @@ def handle(trans_paths, trans_type):
 
 
 if __name__ == "__main__":
-    videos_paths, imgs_paths = trans_list(trans_dir)
-    
     tqdm.write('program starting...')
+    
+    videos_paths, imgs_paths = trans_list(trans_dir)
     
     handle(imgs_paths, 'img') 
     handle(videos_paths, 'video')
     
     tqdm.write('done!')
+
+
